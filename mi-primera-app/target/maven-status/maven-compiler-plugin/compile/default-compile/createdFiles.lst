@@ -1,0 +1,6 @@
+edu\escuelaing\arem\ASE\app\App.class
+edu\escuelaing\arem\ASE\app\EchoServer.class
+edu\escuelaing\arem\ASE\app\EchoClient.class
+edu\escuelaing\arem\ASE\app\URLReader.class
+edu\escuelaing\arem\ASE\app\HttpServer.class
+edu\escuelaing\arem\ASE\app\URLExplorer.class
