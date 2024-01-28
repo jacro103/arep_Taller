@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.escuelaing.arem.ASE.tallerCasa;
 
 /**
@@ -18,12 +14,12 @@ public class HTTPMovie {
     private static final String API_KEY = "c19ff813"; //needed for the api to work
     private static final String GET_URL = "http://www.omdbapi.com/";
 
-    private static  String movieName = "it";
+    private static  String movieName = "Guardians of the galaxy";
 
     private static String responseString = "Fire" ;
 
     public HTTPMovie(){
-        movieName = "it";
+        movieName = "Guardians of the galaxy";
     }
     public static void main(String[] args) throws IOException {
         URL obj = new URL(fullUrlBuilder());
@@ -34,6 +30,7 @@ public class HTTPMovie {
         //The following invocation perform the connection implicitly before getting the code
         int responseCode = con.getResponseCode();
         System.out.println("GET Response Code :: " + responseCode);
+        System.out.println(fullUrlBuilder());
 
         if (responseCode == HttpURLConnection.HTTP_OK) { // success
             BufferedReader in = new BufferedReader(new InputStreamReader(

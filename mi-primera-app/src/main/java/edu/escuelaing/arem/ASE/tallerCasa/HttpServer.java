@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package edu.escuelaing.arem.ASE.tallerCasa;
 
 import org.json.JSONObject;
@@ -56,8 +52,6 @@ public class HttpServer {
             }
             if (uriS.startsWith("/movie?")) {
                 outputLine = getMovie(uriS);
-            }else if(uriS.startsWith("/moviepost")){
-                outputLine = getMovie(uriS);
             }else if(uriS.startsWith("/movie?name=Close") || uriS.startsWith("/moviepost?name=Close")){
                 running = false;
                 outputLine = getIndexResponse();
@@ -110,15 +104,7 @@ public class HttpServer {
                 "        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
                 "       <style>\n" +
                 "           body{\n" +
-
-                "           h1 {\n" +
-                "               text-align:center;\n" +
-                "               margin-top: 50px; \n" +
-                "           }\n" +
                 "           label, input[type=\"text\"],input[type=\"button\"]{\n" +
-                "               display: block;\n" +
-                "               margin: 0 auto;\n" +
-                "               text-align: center;\n" +
                 "           }"+
                 "       </style>" +
                 "    </head>\n" +
