@@ -11,18 +11,18 @@ import java.io.UnsupportedEncodingException;
 import java.net.*;
 public class HTTPMovie {
     private static final String USER_AGENT = "Mozilla/5.0";
-    private static final String API_KEY = "c19ff813"; //needed for the api to work
+    private static final String API_KEY = "c19ff813"; 
     private static final String GET_URL = "http://www.omdbapi.com/";
 
     private static  String movieName = "Guardians of the galaxy";
 
-    private static String responseString = "Fire" ;
+    private static String responseString = " " ;
 
     public HTTPMovie(){
         movieName = "Guardians of the galaxy";
     }
     public static void main(String[] args) throws IOException {
-        URL obj = new URL(fullUrlBuilder());
+        URL obj = new URL(url());
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", USER_AGENT);
@@ -30,7 +30,7 @@ public class HTTPMovie {
         //The following invocation perform the connection implicitly before getting the code
         int responseCode = con.getResponseCode();
         System.out.println("GET Response Code :: " + responseCode);
-        System.out.println(fullUrlBuilder());
+        System.out.println(url());
 
         if (responseCode == HttpURLConnection.HTTP_OK) { // success
             BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -52,9 +52,40 @@ public class HTTPMovie {
         }
         System.out.println("GET DONE");
     }
+    
+    
+        /**
+     *
+     * @param name
+     * @return the encode of the movie name this is just to make sure that the url at least in te name part will be okay
+     *This method is built just to make a dinamyc way of using the API, changing the name of the movie i want to search,
+     * encoding the name of the movie doesnt mean tht will work but at least is a way to having right
+     */
+    public static void movieSet(String name) {
+        movieName = name;
+        String movieNameUrl = null;
+        try {
+            movieNameUrl = URLEncoder.encode(movieName, "UTF-8");
+        } catch (UnsupportedEncodingException x) {
+            x.printStackTrace();
+        }
+        movieName = movieNameUrl;
+    }
 
-    public static void execute() throws IOException{
-        URL obj = new URL(fullUrlBuilder());
+    public String getMovieName(){
+        return movieName;
+    }
+
+    /**
+     *
+     * @return the json casted to string
+     */
+    public static String getMessage(){
+        return responseString.toString();
+    }
+
+    public static void run() throws IOException{
+        URL obj = new URL(url());
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", USER_AGENT);
@@ -78,38 +109,10 @@ public class HTTPMovie {
      * This method is in charge o
      * @return
      */
-    public static String fullUrlBuilder(){
+    public static String url(){
         return GET_URL + "?t=" + movieName + "&apikey=" + API_KEY;
     }
 
-    /**
-     *
-     * @param name
-     * @return the encode of the movie name this is just to make sure that the url at least in te name part will be okay
-     *This method is built just to make a dinamyc way of using the API, changing the name of the movie i want to search,
-     * encoding the name of the movie doesnt mean tht will work but at least is a way to having right
-     */
-    public static void movieNameSetter(String name) {
-        movieName = name;
-        String movieNameUrl = null;
-        try {
-            movieNameUrl = URLEncoder.encode(movieName, "UTF-8");
-        } catch (UnsupportedEncodingException x) {
-            x.printStackTrace();
-        }
-        movieName = movieNameUrl;
-    }
 
-    public String getMovieName(){
-        return movieName;
-    }
-
-    /**
-     *
-     * @return the json casted to string
-     */
-    public static String getMessage(){
-        return responseString.toString();
-    }
 
 }

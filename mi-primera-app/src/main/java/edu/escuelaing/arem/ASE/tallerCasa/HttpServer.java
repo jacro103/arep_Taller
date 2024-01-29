@@ -13,7 +13,7 @@ public class HttpServer {
     private static HTTPMovie apiConection = new HTTPMovie();
     private static ConcurrentHashMap<String,String> cache = new ConcurrentHashMap<>();
     
-    private static HashMap<String,Object> movieData = new HashMap<>();
+    private static HashMap<String,Object> Data = new HashMap<>();
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = null;
         try {
@@ -74,23 +74,66 @@ public class HttpServer {
         if (cache.containsKey(name.toUpperCase())){
             message = cache.get(name.toUpperCase());
             movieSetter(message);
-            httpList = listMader();
-            return htmlResponse(httpList);
+            httpList = info();
+            return "HTTP/1.1 200 OK\r\n"
+                    + "Content-Type:  text/html\r\n"
+                    + "\r\n"
+                    + "<!DOCTYPE html>\n"
+                    + "<html>\n"
+                    + " <head>\n"
+                    + "     <meta charset=\"UTF-8\">\n"
+                    + "     <title>List</title> \n"
+                    + " </head>\n"
+                    + " <body>\n"
+                    + "     " + httpList
+                    + " </body>\n"
+                    +"</html>";
         }else{
-            apiConection.movieNameSetter(name);
+            apiConection.movieSet(name);
             try {
-                apiConection.execute();
+                apiConection.run();
                 message = apiConection.getMessage();
                 movieSetter(message);
-                httpList = listMader();
+                httpList = info();
                 cache.put(name.toUpperCase(),message);
-                return htmlResponse(httpList);
+                return  "HTTP/1.1 200 OK\r\n"
+                        + "Content-Type:  text/html\r\n"
+                        + "\r\n"
+                        + "<!DOCTYPE html>\n"
+                        + "<html>\n"
+                        + " <head>\n"
+                        + "     <meta charset=\"UTF-8\">\n"
+                        + "     <title>List</title> \n"
+                        + " </head>\n"
+                        + " <body>\n"
+                        + "     " + httpList
+                        + " </body>\n"
+                        +"</html>";
             }catch (IOException x){
                 x.printStackTrace();
             }
         }
         return "Error 404";
-    }        
+    }   
+    
+        /**
+     * This method will extract the values of the dictionary where is located the json message
+     * @return the part in html listing the data from the movie that is wnat to be show
+     */
+    public static String info(){
+        String title = (String) Data.get("Title");
+        String year = (String) Data.get("Year");
+        String genre = (String) Data.get("Genre");
+        String director = (String) Data.get("Director");
+        String sinopsis = (String) Data.get("Plot");
+        return "<ul>\n"
+                +"  <li> Title: " + title + "</li>\n"
+                +"  <li> Year: " + year + "</li>\n"
+                +"  <li> Genre: " + genre + "</li>\n"
+                +"  <li> Director: " + director + "</li>\n"
+                + " <li> Sinopsis: " + sinopsis + "</li>\n"
+                +"</ul>\n";
+    }
             
     public static String getIndexResponse() {
         return "HTTP/1.1 200 OK\r\n"
@@ -150,7 +193,7 @@ public class HttpServer {
             while (keys.hasNext()){
                 String key = keys.next();
                 Object value = jsonObj.get(key);
-                movieData.put(key,value);
+                Data.put(key,value);
             }
         }catch (Exception x){
             x.printStackTrace();
@@ -158,47 +201,10 @@ public class HttpServer {
     }
 
     public static HashMap<String, Object> getMovieData() {
-        return movieData;
+        return Data;
     }
 
-    /**
-     * This method will extract the values of the dictionary where is located the json message
-     * @return the part in html listing the data from the movie that is wnat to be show
-     */
-    public static String listMader(){
-        String title = (String) movieData.get("Title");
-        String year = (String) movieData.get("Year");
-        String genre = (String) movieData.get("Genre");
-        String director = (String) movieData.get("Director");
-        String sinopsis = (String) movieData.get("Plot");
-        return "<ul>\n"
-                +"  <li> Title: " + title + "</li>\n"
-                +"  <li> Year: " + year + "</li>\n"
-                +"  <li> Genre: " + genre + "</li>\n"
-                +"  <li> Director: " + director + "</li>\n"
-                + " <li> Sinopsis: " + sinopsis + "</li>\n"
-                +"</ul>\n";
-    }
 
-    /**
-     *This method is just to represent the movie information with html
-     * @param httpList the list in html abaout the part of the movie data that is want tyo use
-     * @return the html that will be show in the browser
-     */
-    public static String htmlResponse(String httpList){
-        return "HTTP/1.1 200 OK\r\n"
-                + "Content-Type:  text/html\r\n"
-                + "\r\n"
-                + "<!DOCTYPE html>\n"
-                + "<html>\n"
-                + " <head>\n"
-                + "     <meta charset=\"UTF-8\">\n"
-                + "     <title>List</title> \n"
-                + " </head>\n"
-                + " <body>\n"
-                + "     " + httpList
-                + " </body>\n"
-                +"</html>";
-    }
+
 }
 
