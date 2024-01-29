@@ -23,11 +23,9 @@ En el proyecto, encontrarás dos directorios principales:
 2. Ejecuta la clase `HTTPServer`.
 3. En tu navegador preferido (por ejemplo, Firefox), visita `localhost:35000`, que es el puerto del socket que se abre.
 
-<<<<<<< HEAD
 En la interfaz web, encontrarás un input para realizar  una consulta  con el método GEt, para ejecutar precionar el boton  "Submit".
-=======
-En la interfaz web, encontrarás un input para realizar la consulta. Escribe el nombre de la película y haz clic en "Submit".
->>>>>>> 898830daacfc4e852a3ca6cf443365f32032bda0
+
+
 
 ### Lógica del Servidor
 
